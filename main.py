@@ -6,22 +6,18 @@ names = []
 followers = []
 fig, ax = plt.subplots()
 for username in usernames:
-	print(username, end=': ')
-	count = requests.get(f'https://www.instagram.com/{username}/?__a=1').json()["graphql"]["user"]['edge_followed_by']["count"]
-	print(count)
+	print(f"{username} ", requests.get(f'https://www.instagram.com/{username}/?__a=1').json()["graphql"]["user"]['edge_followed_by']["count"])
 	names.append(username)
-	followers.append(count)
+	followers.append(requests.get(f'https://www.instagram.com/{username}/?__a=1').json()["graphql"]["user"]['edge_followed_by']["count"])
 names = numpy.array(names)
 followers = numpy.array(followers)
 labels = followers
-data = plt.bar(names, followers)
 def autolabel(rects):
-    for idx,rect in enumerate(data):
-        height = rect.get_height()
-        ax.text(rect.get_x() + rect.get_width()/2., 1.05*height,
+    for idx,rect in enumerate(plt.bar(names, followers)):
+        ax.text(rect.get_x() + rect.get_width()/2., 1.05*rect.get_height(),
                 labels[idx],
                 ha='center', va='bottom', rotation=0)
-autolabel(data)
+autolabel(plt.bar(names, followers))
 plt.ylim(0,max(followers)*1.05)
 plt.title('Instagram Followers Comparator.')
 plt.show()
