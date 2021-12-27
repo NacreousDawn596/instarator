@@ -12,6 +12,6 @@ names, followers, labels = numpy.array(names), numpy.array(followers), followers
 def autolabel(rects):
     [ax.text(rect.get_x() + rect.get_width()/2., 1.05*rect.get_height(), labels[idx], ha='center', va='bottom', rotation=0) for idx,rect in enumerate(plt.bar(names, followers))] 
 autolabel(plt.bar(names, followers))
-plt.ylim(0,max(followers)*1.05)
+plt.ylim(0, int(max(followers))*1.05)
 plt.title('Instagram Followers Comparator.')
 plt.show()
